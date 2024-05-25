@@ -1,8 +1,9 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { Observable, map } from 'rxjs';
 import { State } from 'src/model/state.entity';
+import { encryptName } from 'src/utils/encrypt.util';
 
 @Injectable()
 export class AppService {
@@ -15,7 +16,7 @@ export class AppService {
         map((response: AxiosResponse<any>) => {
           return response.data.map((estado: any) => ({
             id: estado.id,
-            name: estado.nome
+            name: encryptName(estado.nome)
           }));
         })
       );
