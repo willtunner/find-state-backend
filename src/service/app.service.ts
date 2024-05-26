@@ -14,10 +14,12 @@ export class AppService {
     return this.httpService.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
       .pipe(
         map((response: AxiosResponse<any>) => {
-          return response.data.map((estado: any) => ({
+          const states = response.data.map((estado: any) => ({
             id: estado.id,
             name: encryptName(estado.nome)
           }));
+          states.sort((a, b) => a.name.localeCompare(b.name));
+          return states;
         })
       );
   }
