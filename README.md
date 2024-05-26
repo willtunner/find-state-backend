@@ -14,7 +14,7 @@
 ```ini
   - Certifique de que o node esteja insalado v20^, ou baixe 'https://nodejs.org/'
   - Certifique se o Nest está instalado, ou instale usando 'npm install --save @nestjs/core @nestjs/common rxjs' 
-  (ste comando instalará o pacote principal do Nest.js (@nestjs/core), os módulos comuns (@nestjs/common) e a dependência rxjs.)
+  (este comando instalará o pacote principal do Nest.js (@nestjs/core), os módulos comuns (@nestjs/common) e a dependência rxjs.)
   - Baixe o projeto aqui no github e descompacta
   - Abra a pasta do projeto e instale a dependencias utilizando 'npm install'
   - Executa o código 'npm run start:dev' no terminal para iniciar o projeto.
