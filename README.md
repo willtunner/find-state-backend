@@ -1,73 +1,75 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Teste Técnico Back-end 
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### (Consumir api do ibge que retorna estados )
+> Api simples criada em nest.js que consume api publica do Ibge: 'https://servicodados.ibge.gov.br/api/v1/localidades/estados' do tipo GET através de um serviço onde para cada estado ele encriptografa o nome do estado antes de enviar para o front 
+> 
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+### Imagem do projeto
+<div align="center">
+  <img src="/img/01.png" width="30%">
+</div>
 
-## Description
+### Como usar
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+```ini
+  - Certifique de que o node esteja insalado v20^, ou baixe 'https://nodejs.org/'
+  - Certifique se o Nest está instalado, ou instale usando 'npm install --save @nestjs/core @nestjs/common rxjs' 
+  (ste comando instalará o pacote principal do Nest.js (@nestjs/core), os módulos comuns (@nestjs/common) e a dependência rxjs.)
+  - Baixe o projeto aqui no github e descompacta
+  - Abra a pasta do projeto e instale a dependencias utilizando 'npm install'
+  - Executa o código 'npm run start:dev' no terminal para iniciar o projeto.
 ```
 
-## Running the app
 
-```bash
-# development
-$ npm run start
+Api executada no seguinte path:
 
-# watch mode
-$ npm run start:dev
+- `http://localhost:3000/states`
 
-# production mode
-$ npm run start:prod
+
+Api tem somente 1 end-point
+
+- `GET /states`: Retorna todos os estados com nome criptografado.
+
+Função  que retorna os dados:
+```typescript
+findAll(): Observable<State[]> {
+return this.httpService.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados') // Aqui, é feita uma solicitação HTTP GET usando o serviço HTTP fornecido pelo NestJS para a URL fornecida.
+.pipe(
+map((response: AxiosResponse<any>) => { // Aqui, é feita uma solicitação HTTP GET usando o serviço HTTP fornecido pelo NestJS para a URL fornecida.
+const states = response.data.map((estado: any) => ({ //  Para cada estado na resposta, um novo objeto State é criado com os campos id e name, onde name é criptografado usando a função encryptName.
+id: estado.id,
+name: encryptName(estado.nome) 
+}));
+states.sort((a, b) => a.name.localeCompare(b.name)); // Após o mapeamento, o array de estados é ordenado alfabeticamente com base nos nomes dos estados.
+return states;
+})
+);
+}
 ```
 
-## Test
+Retorno dos dados para o front-end:
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```json
+[
+     {
+        "id": 12,
+        "name": "Dfuh"
+    },
+    {
+        "id": 27,
+        "name": "Dodjrdv"
+    },
+    {
+        "id": 13,
+        "name": "Dpd2rqdv"
+    }
+]
 ```
 
-## Support
+### Technologies used:
+ ![Nest.js](https://img.shields.io/badge/Nest.js-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white) ![Axios](https://img.shields.io/badge/Axios-%23000000.svg?style=for-the-badge&logo=axios&logoColor=white)  ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
 
-Nest is [MIT licensed](LICENSE).
